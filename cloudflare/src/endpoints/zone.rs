@@ -36,6 +36,7 @@ impl EndpointSpec<Vec<Zone>> for ListZones {
 pub struct ZoneDetails<'a> {
     pub identifier: &'a str,
 }
+
 impl<'a> EndpointSpec<Zone> for ZoneDetails<'a> {
     fn method(&self) -> Method {
         Method::GET
@@ -50,6 +51,7 @@ impl<'a> EndpointSpec<Zone> for ZoneDetails<'a> {
 pub struct CreateZone<'a> {
     pub params: CreateZoneParams<'a>,
 }
+
 impl<'a> EndpointSpec<()> for CreateZone<'a> {
     fn method(&self) -> Method {
         Method::POST
@@ -109,8 +111,8 @@ pub enum Status {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "lowercase", tag = "type")]
 pub enum Owner {
-    User { id: String, email: String },
-    Organization { id: String, name: String },
+    User { id: Option<String>, email: Option<String> },
+    Organization { id: Option<String>, name: Option<String> },
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -197,4 +199,5 @@ pub struct Zone {
 
 // TODO: This should probably be a derive macro
 impl ApiResult for Zone {}
+
 impl ApiResult for Vec<Zone> {}
